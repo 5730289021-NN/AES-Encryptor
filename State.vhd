@@ -31,26 +31,14 @@ architecture rtl of State is
     signal mem : RAM (0 to RAM_DEPTH-1);
 begin
 
-    -- Memory Write Block
-    -- Write Operation : When we = 1, cs = 1
-    MEM_WRITE:
     process (clk) begin
-        if (rising_edge(clk)) then
+        if (rising_edge(clk)) then --Read at rising
             if (we = '1') then
                 mem(conv_integer(address)) <= dataIn;
             end if;
         end if;
     end process;
-
-    -- Memory Read Block
-    -- Read Operation : When we = 0, oe = 1, cs = 1
-    MEM_READ:
-    process (clk) begin
-        if (rising_edge(clk)) then
-            if (we = '0' and oe = '1') then
-                 dataOut <= mem(conv_integer(address));
-            end if;
-        end if;
-    end process;
+    
+    dataOut <= mem(conv_integer(address));
 
 end architecture;
